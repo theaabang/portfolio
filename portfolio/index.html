@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thea Abang | Portfolio</title>
+<!-- what shows up when someone sends my link (imessage, linkedin, slack...).
+     to change the picture, swap images/preview.jpg (keep it 1200x630) and redeploy -->
+<meta name="description" content="Thea Abang's creative portfolio: UX/UI, graphic design and strategy work.">
+<meta property="og:title" content="Thea Abang | Creative Portfolio">
+<meta property="og:description" content="UX/UI, graphic design and strategy work by Thea Abang.">
+<meta property="og:image" content="https://theaabang.netlify.app/images/preview.jpg">
+<meta property="og:url" content="https://theaabang.netlify.app/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#5B4BD6; --accent2:#FFD23F; --ink:#1A1A1A;
+    --lavender:#E4DEFA; --butter:#FFF0B3; --mint:#D8EAD9; --blush:#F7DAD3;
+  }
+</style>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* page background
+     if i ever want a doodle pattern, save it as images/doodle-bg.png (2400x2400) and it'll tile.
+     no file = plain paper, which is fine too */
+  body{background:var(--paper) url("images/doodle-bg.png") 0 0/1200px auto repeat;}
+
+  /* intro: my work taped up in piles around the edges, title in the middle */
+  .intro{overflow:hidden;}
+  .cover{position:relative;display:grid;place-items:center;min-height:calc(100vh - 84px);min-height:calc(100svh - 84px);}
+  .work-wall{position:absolute;inset:0;z-index:1;} /* so photos always stay under the title, even when dragged */
+  /* each one gets a white border + tape, like the polaroids further down */
+  .work-tile{position:absolute;width:var(--w);background:#fff;padding:6px 6px 18px;transform:rotate(var(--r));
+    box-shadow:0 4px 12px rgba(26,26,26,.12);transition:transform .25s ease;}
+  .work-tile img{width:100%;height:auto;display:block;}
+  .work-tile.crop-left img{aspect-ratio:4/3;object-fit:cover;object-position:left center;} /* the poster has a blank strip on the right, this hides it */
+  .work-tile::before{content:"";position:absolute;top:-10px;left:50%;width:46%;max-width:76px;height:20px;
+    background:var(--tape);transform:translateX(-50%) rotate(-3deg);}
+  .work-tile:nth-child(even)::before{transform:translateX(-50%) rotate(4deg);}
+  /* secret "hi" hiding under the top-left photo hehe */
+  .peekaboo{position:absolute;left:4%;top:15%;z-index:0;font-family:var(--font-hand);font-size:clamp(1.6rem,3vw,2.6rem);
+    color:var(--accent);transform:rotate(-10deg);white-space:nowrap;}
+  /* the "psst" note under the title */
+  .cover-hint{justify-self:start;margin:-1.4em 0 0 .6em;font-family:var(--font-hand);font-size:clamp(1rem,1.8vw,1.4rem);
+    color:var(--ink-soft);transform:rotate(-3deg);}
+  /* draggable photos (the script is at the bottom) */
+  .work-tile{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;}
+  .work-tile img{pointer-events:none;-webkit-user-drag:none;}
+  .work-tile:hover{transform:rotate(var(--r)) scale(1.03);}
+  .work-tile.dragging{cursor:grabbing;transform:rotate(0deg) scale(1.06);box-shadow:0 16px 30px rgba(26,26,26,.25);transition:none;}
+  @media (max-width:700px){
+    .work-tile.sm-hide{display:none;}
+    .cover-hint{margin-top:.4em;}
+    .peekaboo{left:9%;top:9%;}
+    .work-tile{--w:34% !important;}
+  }
+  .cover-text{position:relative;z-index:20;display:grid;justify-items:start;padding:24px;}
+  .cover-by{font-family:var(--font-hand);font-size:clamp(1.8rem,5.5vw,4.4rem);color:var(--accent);line-height:1;
+    transform:rotate(-8deg);margin:0 0 -.8em -.6em;}
+  .cover-title{font-family:var(--font-title);font-size:clamp(3rem,14vw,11.5rem);line-height:1.05;color:var(--ink);white-space:nowrap;}
+  .cover-year{justify-self:end;font-family:var(--font-hand);font-size:clamp(1.2rem,3vw,2.4rem);color:var(--accent);line-height:1;margin-top:-1em;}
+  /* the big "hello, i'm thea abang" */
+  .hero-hi{padding-block:56px 24px;}
+  .hi-panel{position:relative;padding-block:clamp(16px,3vw,40px);
+    display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;}
+  .hi-text{position:relative;z-index:2;--fs:clamp(3.4rem,9.4vw,7.8rem);}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .cut{display:block;font-family:var(--font-display);font-weight:400;font-size:var(--fs);line-height:.92;text-transform:uppercase;color:var(--ink);
+    -webkit-text-stroke:.035em currentColor;text-shadow:.05em .06em 0 var(--accent2);} /* outline makes the letters chunkier, yellow shadow looks like a second layer of paper */
+  .cut .line{display:block;white-space:nowrap;}
+  .cut .name{color:var(--accent);}
+  /* tilt the letters a bit so it looks cut out and glued on */
+  .cut .ch{display:inline-block;transition:transform .2s ease;}
+  .cut .ch:nth-child(odd){transform:rotate(-6deg) translateY(.03em);}
+  .cut .ch:nth-child(3n){transform:rotate(7deg) translateY(-.05em);}
+  .cut .ch:nth-child(4n){transform:rotate(-3deg) translateY(.06em) scale(1.06);}
+  .cut .ch:nth-child(5n){transform:rotate(4deg) scale(.94);}
+  .cut .ch:hover{transform:rotate(-10deg) scale(1.12);}
+  .cut .sp{display:inline-block;width:.3em;}
+  /* she/her tag next to "i'm" */
+  .pronouns{position:absolute;top:calc(var(--fs) * 1.2);left:calc(var(--fs) * 1.75);margin:0;
+    font-family:var(--font-hand);font-size:clamp(1.3rem,2.4vw,1.8rem);line-height:1;color:var(--accent);
+    background:var(--lavender);border:1.5px solid var(--accent);border-radius:999px;padding:6px 16px 8px;transform:rotate(-6deg);}
+  .roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+  .roles span{
+    font-family:var(--font-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+    border:1.5px solid var(--ink);color:var(--ink);background:var(--paper);border-radius:999px;padding:8px 14px;
+  }
+  .roles span:nth-child(2){background:var(--accent2);}
+  .hi-blob{position:absolute;right:-2%;top:6%;width:min(46%,440px);height:auto;fill:var(--accent2);z-index:0;}
+  .hi-loops{position:absolute;right:40%;top:22px;width:120px;fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;z-index:1;transform:rotate(-8deg);}
+  .hi-star{position:absolute;left:44%;bottom:-30px;width:120px;fill:var(--lavender);z-index:1;transform:rotate(10deg);}
+  .hi-panel .polaroid{z-index:2;}
+  @media (max-width:860px){
+    .hi-panel{grid-template-columns:1fr;}
+    .hi-text{--fs:15vw;}
+    .pronouns{top:calc(var(--fs) * 1.15);left:calc(var(--fs) * 1.9);font-size:1.2rem;}
+    .hi-blob{width:80%;top:auto;bottom:4%;right:10%;}
+    .hi-loops{right:8%;top:16px;width:90px;}
+    .hi-star{left:auto;right:-20px;bottom:-40px;width:100px;}
+  }
+  @media (prefers-reduced-motion:reduce){.cut .ch:hover{transform:none;}}
+
+  .polaroid{position:relative;background:#fff;padding:14px 14px 56px;transform:rotate(3deg);max-width:380px;justify-self:center;width:100%;}
+  .polaroid img{width:100%;aspect-ratio:4/5;object-fit:cover;}
+  .polaroid figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:var(--font-hand);font-size:1.6rem;line-height:1;}
+  .polaroid::before,.polaroid::after{content:"";position:absolute;width:110px;height:30px;background:var(--tape);z-index:2;}
+  .polaroid::before{top:-14px;left:-26px;transform:rotate(-32deg);}
+  .polaroid::after{top:-14px;right:-26px;transform:rotate(32deg);}
+
+  .sticker{
+    position:absolute;width:118px;height:118px;border-radius:50%;background:var(--accent2);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;
+    font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;line-height:1.35;
+    transform:rotate(-12deg);z-index:3;
+  }
+  .polaroid .sticker{left:-48px;bottom:40px;}
+
+  /* life strip (the scrolling polaroids) */
+  .life{padding-block:24px 8px;overflow:hidden;}
+  .life-label{font-family:var(--font-hand);font-size:1.9rem;color:var(--accent);text-align:center;transform:rotate(-2deg);margin-bottom:8px;}
+  .life-strip{overflow-x:auto;scrollbar-width:none;padding-block:28px 36px;}
+  .life-strip::-webkit-scrollbar{display:none;}
+  .life-track{display:flex;gap:36px;width:max-content;padding-inline:24px;}
+  .life-strip.moving{overflow:hidden;}
+  .life-strip.moving .life-track{padding-inline:0;animation:drift 45s linear infinite;}
+  .life-strip.moving:hover .life-track{animation-play-state:paused;}
+  @keyframes drift{to{transform:translateX(calc(-50% - 18px));}}
+  .snap{position:relative;flex:0 0 auto;width:220px;background:#fff;padding:10px 10px 48px;transition:transform .3s ease;}
+  .snap:nth-child(odd){transform:rotate(-3deg);}
+  .snap:nth-child(even){transform:rotate(2.5deg) translateY(14px);}
+  .snap:hover{transform:rotate(0) scale(1.05);z-index:2;}
+  .snap::before{content:"";position:absolute;top:-12px;left:50%;width:80px;height:24px;background:var(--tape);transform:translateX(-50%) rotate(-3deg);z-index:2;}
+  .snap-img{position:relative;aspect-ratio:1;background:var(--lavender);}
+  .snap:nth-child(4n+2) .snap-img{background:var(--butter);}
+  .snap:nth-child(4n+3) .snap-img{background:var(--mint);}
+  .snap:nth-child(4n) .snap-img{background:var(--blush);}
+  .snap-img::after{ /* reminds me which file goes here until i add the photo */
+    content:"add " attr(data-file);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;
+    font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;color:var(--ink-soft);
+  }
+  .snap-img img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;}
+  .snap figcaption{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:var(--font-hand);font-size:1.5rem;line-height:1;}
+  @media (max-width:480px){.snap{width:170px;}.snap figcaption{font-size:1.25rem;}}
+
+  /* section headers */
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:44px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:16px;}
+  .sec-head .num{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.14em;color:var(--ink-soft);}
+  .sec-head h2{margin:0;}
+  /* the little hand-drawn burst. to put one on a heading, paste <svg class="burst" aria-hidden="true"><use href="#burst"/></svg> inside it */
+  .has-burst{position:relative;padding-right:.2em;}
+  .burst{position:absolute;top:-.75em;right:-1.45em;width:1.5em;height:1.4em;overflow:visible;pointer-events:none;}
+
+  /* about */
+  .about-more .row{align-items:center;gap:64px;}
+  .about-more .lede{font-family:var(--font-body);font-weight:500;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.45;letter-spacing:-.01em;max-width:34ch;} /* regular font here so it's easy to read */
+  .about-more .lede mark{background:linear-gradient(transparent 55%,var(--accent2) 55%);color:inherit;padding:0 2px;}
+  .about-more .text p + p{margin-top:20px;font-size:1.05rem;color:var(--ink-soft);max-width:56ch;}
+  .about-more .polaroid{transform:rotate(-3deg);max-width:300px;flex:0 0 auto;margin-inline:auto;}
+  .about-more .polaroid img{aspect-ratio:5/6;}
+
+  /* skills */
+  .skill-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .skill-card{background:#fff;padding:28px 24px;position:relative;
+    background-image:repeating-linear-gradient(transparent 0 31px,rgba(91,75,214,.13) 31px 32px);background-position:0 58px;}
+  .skill-card:nth-child(1){transform:rotate(-1.2deg);}
+  .skill-card:nth-child(2){transform:rotate(.8deg);background-color:var(--butter);}
+  .skill-card:nth-child(3){transform:rotate(-.6deg);}
+  .skill-card::before{content:"";position:absolute;top:-12px;left:28px;width:84px;height:24px;background:var(--tape);transform:rotate(-4deg);}
+  .skill-card h3{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--accent);margin-bottom:12px;}
+  .skill-card p{line-height:2;}
+  .tools{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;}
+  .tools span{
+    font-weight:600;font-size:.95rem;padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);background:#fff;
+    transition:transform .2s ease;
+  }
+  .tools span:nth-child(4n+1){background:var(--lavender);transform:rotate(-2deg);}
+  .tools span:nth-child(4n+2){background:var(--butter);transform:rotate(1.5deg);}
+  .tools span:nth-child(4n+3){background:var(--mint);transform:rotate(-1deg);}
+  .tools span:nth-child(4n){background:var(--blush);transform:rotate(2deg);}
+  .tools span:hover{transform:rotate(0) translateY(-3px);}
+
+  /* work */
+  .hint{font-family:var(--font-hand);font-size:1.7rem;color:var(--accent);transform:rotate(-2deg);margin-left:auto;}
+  .projects{display:grid;gap:40px;}
+  .project{
+    display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center;
+    padding:36px;text-decoration:none;color:var(--ink);position:relative;
+    transition:transform .3s ease;
+  }
+  .project:nth-child(1){background:var(--lavender);}
+  .project:nth-child(2){background:var(--butter);}
+  .project:nth-child(3){background:var(--mint);}
+  .project:nth-child(4){background:var(--blush);}
+  .project:nth-child(even){grid-template-columns:1.5fr 1fr;}
+  .project:nth-child(even) .project-text{order:2;}
+  .project:hover{transform:rotate(-.6deg) translateY(-4px);}
+  .project:nth-child(even):hover{transform:rotate(.6deg) translateY(-4px);}
+  .project:focus-visible{outline:3px solid var(--ink);outline-offset:6px;}
+  .project .num{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+  .project h3{font-family:var(--font-display);font-style:italic;font-weight:900;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.02em;margin:10px 0 14px;}
+  .project p{color:var(--ink-soft);max-width:44ch;}
+  .project .go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;}
+  .project .go::after{content:"→";font-size:1.2rem;transition:transform .2s ease;}
+  .project:hover .go::after{transform:translateX(6px);}
+  /* the preview pics on each project card */
+  .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative;}
+  .stack img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;}
+  .stack img:nth-child(1){transform:rotate(-2deg);}
+  .stack img:nth-child(3){transform:rotate(2deg);}
+  .stack::before,.stack::after{content:"";position:absolute;width:76px;height:22px;background:var(--tape);z-index:2;}
+  .stack::before{top:-10px;left:6%;transform:rotate(-8deg);}
+  .stack::after{bottom:-10px;right:8%;transform:rotate(6deg);}
+  /* "fit" = pics keep their real shape instead of getting squished into squares.
+     match the column widths to the pics (wider pic = bigger number) */
+  .stack.fit{align-items:center;}
+  .stack.fit img{aspect-ratio:auto;height:auto;}
+  .stack.duo{grid-template-columns:4fr 5.3fr;gap:18px;}
+  .stack.duo img:nth-child(2){transform:rotate(2deg);}
+  /* one big pic on top, two underneath (good for wide slides) */
+  .stack.feature{grid-template-columns:1fr 1fr;}
+  .stack.feature img:first-child{grid-column:1/-1;}
+
+  /* contact */
+  .cta{text-align:center;padding-block:100px 80px;}
+  .cta h2{font-family:var(--font-display);font-weight:900;font-size:clamp(2.6rem,8vw,6rem);line-height:.95;letter-spacing:-.03em;}
+  .cta h2 em{color:var(--accent);}
+  .cta p{margin:24px auto 0;max-width:46ch;font-size:1.1rem;color:var(--ink-soft);}
+  .cta-links{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:36px;}
+  .btn{
+    display:inline-block;text-decoration:none;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+    padding:16px 26px;border:1.5px solid var(--ink);color:var(--ink);background:var(--paper);
+    box-shadow:4px 4px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .btn.primary{background:var(--accent2);}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
+
+  /* phone stuff */
+  @media (max-width:860px){
+    .skill-cards{grid-template-columns:1fr;gap:36px;}
+    .project,.project:nth-child(even){grid-template-columns:1fr;padding:28px 22px;gap:28px;}
+    .project:nth-child(even) .project-text{order:0;}
+    .hint{margin-left:0;}
+  }
+  @media (max-width:480px){
+    nav.site a{margin-left:14px;}
+    .polaroid .sticker{width:96px;height:96px;left:-20px;font-size:.6rem;}
+    .about-more .polaroid{max-width:240px;}
+    .stack{gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- my doodle drawings, saved once here and reused all over the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="hatch" width="3.6" height="3.6" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
+      <line x1="0" y1="0" x2="0" y2="3.6" style="stroke:var(--accent);stroke-width:2.6"/>
+    </pattern>
+    <filter id="crayon" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+    </filter>
+    <symbol id="burst" viewBox="0 0 120 110">
+      <g fill="url(#hatch)" filter="url(#crayon)">
+        <polygon points="12,82 26,0 50,6"/>
+        <polygon points="26,92 88,16 110,40"/>
+        <polygon points="32,106 118,76 120,104"/>
+      </g>
+    </symbol>
+    <symbol id="d-heart" viewBox="0 0 60 54"><path d="M30 50C10 36 3 24 6 14 9 4 22 2 30 14 38 2 51 4 54 14 57 24 50 36 30 50Z"/></symbol>
+    <symbol id="d-squiggle" viewBox="0 0 120 30"><path d="M3 18C15 2 25 2 33 16S52 30 61 15 81 1 90 15 109 28 117 10"/></symbol>
+    <symbol id="d-swirl" viewBox="0 0 60 60"><path d="M30 30c0-4 6-4 6 0 0 7-12 7-12 0 0-11 18-11 18 0 0 14-24 14-24 0 0-18 30-18 30 0"/></symbol>
+    <symbol id="d-sparkle" viewBox="0 0 60 60"><path d="M30 4C32 22 38 28 56 30 38 32 32 38 30 56 28 38 22 32 4 30 22 28 28 22 30 4Z" style="fill:currentColor;stroke:none"/></symbol>
+    <symbol id="d-arrow" viewBox="0 0 100 60"><path d="M4 8C30 4 60 14 74 44M62 40l12 6 4-14"/></symbol>
+    <symbol id="d-loop" viewBox="0 0 100 40"><path d="M4 30C20 30 22 6 34 8S38 34 50 30 58 6 70 8 72 34 96 26"/></symbol>
+  </defs>
+</svg>
+
+<nav class="site"><div class="wrap">
+  <strong>Thea Abang</strong>
+  <div><a href="#about">About</a><a href="#skills">Skills</a><a href="#work">Work</a></div>
+</div></nav>
+
+<!-- intro! my work taped up around "creative portfolio".
+     the small versions of the pics are in images/intro/.
+     to rearrange: left/top = where it sits, --w = size, --r = tilt, z-index = which one's on top -->
+<div class="intro">
+  <div class="cover">
+    <div class="work-wall" aria-hidden="true">
+      <span class="peekaboo">hi!! :D</span> <!-- secret note! only shows up if someone drags that photo away -->
+      <span class="work-tile" style="left:2%;top:4%;--w:13%;--r:-7deg;z-index:2"><img src="images/intro/grainger-opp-1.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:9%;top:14%;--w:16%;--r:4deg;z-index:3"><img src="images/intro/adv250-slide-1.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:23%;top:2%;--w:10%;--r:6deg;z-index:1"><img src="images/intro/grainger-wie-1.jpg" alt=""></span>
+      <span class="work-tile crop-left" style="left:70%;top:3%;--w:18%;--r:5deg;z-index:2"><img src="images/intro/research-poster.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:86%;top:10%;--w:9%;--r:-6deg;z-index:3"><img src="images/intro/grainger-story-1.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:62%;top:16%;--w:10%;--r:-4deg;z-index:1"><img src="images/intro/cs-grainger-1.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:1%;top:46%;--w:11%;--r:5deg;z-index:2"><img src="images/intro/inkheart-brand-guide.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:88%;top:44%;--w:10%;--r:-5deg;z-index:2"><img src="images/intro/grainger-wie-4.jpg" alt=""></span>
+      <span class="work-tile" style="left:3%;top:72%;--w:17%;--r:-3deg;z-index:2"><img src="images/intro/research-team.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:18%;top:66%;--w:10%;--r:7deg;z-index:3"><img src="images/intro/cs-inkheart-2.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:24%;top:80%;--w:16%;--r:-5deg;z-index:1"><img src="images/intro/adv250-slide-2.jpg" alt=""></span>
+      <span class="work-tile" style="left:66%;top:74%;--w:17%;--r:4deg;z-index:2"><img src="images/intro/cs-inkheart-1.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:85%;top:70%;--w:10%;--r:-6deg;z-index:3"><img src="images/intro/grainger-opp-2.jpg" alt=""></span>
+      <span class="work-tile sm-hide" style="left:56%;top:84%;--w:13%;--r:-3deg;z-index:1"><img src="images/intro/adv250-slide-3.jpg" alt=""></span>
+    </div>
+    <div class="cover-text">
+      <span class="cover-by">thea abang&rsquo;s</span>
+      <span class="cover-title">creative portfolio</span>
+      <span class="cover-year">2026&ndash;2027</span>
+      <span class="cover-hint">psst&hellip; you can drag the photos around!</span>
+    </div>
+  </div>
+</div>
+
+<header id="about" class="hero-hi">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="num">01</span><h2 class="script has-burst">About me!<svg class="burst" aria-hidden="true"><use href="#burst"/></svg></h2></div>
+    <div class="hi-panel">
+      <!-- fun shapes: yellow blob behind my photo, squiggle, starburst -->
+      <svg class="hi-blob" viewBox="0 0 400 420" aria-hidden="true"><path d="M214 14c62-8 132 24 160 86 26 58 4 104 14 160 10 58-22 120-86 146-62 26-118-6-178-2-60 4-112-30-122-92-10-60 30-92 34-150 4-64 28-118 88-140 30-10 60-4 90-8Z"/></svg>
+      <svg class="hi-loops" viewBox="0 0 100 40" aria-hidden="true"><use href="#d-loop"/></svg>
+      <svg class="hi-star" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 4l14 58 44-40-18 58 56-6-46 34 48 32-58-4 16 58-44-40-12 58-14-58-46 38 20-56-58 2 48-32-46-36 58 8-16-58 44 40Z"/></svg>
+
+      <div class="hi-text">
+        <h1>
+          <span class="sr-only">Hello, I'm Thea Abang</span>
+          <span class="cut" aria-hidden="true">
+            <span class="line"><span class="ch">h</span><span class="ch">e</span><span class="ch">l</span><span class="ch">l</span><span class="ch">o</span><span class="ch">,</span></span>
+            <span class="line"><span class="ch">i</span><span class="ch">'</span><span class="ch">m</span></span>
+            <span class="line name"><span class="ch">t</span><span class="ch">h</span><span class="ch">e</span><span class="ch">a</span><span class="sp"> </span><span class="ch">a</span><span class="ch">b</span><span class="ch">a</span><span class="ch">n</span><span class="ch">g</span></span>
+          </span>
+        </h1>
+        <div class="roles">
+          <span>UX/UI</span><span>Graphic Designer</span><span>Account Manager</span>
+        </div>
+      </div>
+
+      <figure class="polaroid">
+        <img src="images/home-hero.jpg" alt="Thea Abang">
+        <figcaption>design · code · strategy</figcaption>
+        <span class="sticker">CS + Advertising @ Illinois</span>
+      </figure>
+    </div>
+  </div>
+</header>
+
+<section class="wrap about-more">
+  <svg class="doodle yellow" style="top:38%;left:-1%;width:42px;--tilt:-10deg" aria-hidden="true"><use href="#d-heart"/></svg>
+  <span class="doodle sm hide-sm" style="bottom:40px;left:44%;" aria-hidden="true">✦</span>
+  <svg class="doodle hide-sm" style="bottom:10%;right:2%;width:60px" aria-hidden="true"><use href="#d-swirl"/></svg>
+  <div class="row reveal">
+    <figure class="polaroid">
+      <img src="images/about-me.jpg" alt="Thea Abang portrait">
+      <figcaption>that's me!</figcaption>
+    </figure>
+    <div class="text">
+      <p class="lede">I study <strong>CS + Advertising</strong> at the <strong>University of Illinois</strong>, bridging the gap between <mark>code, accessible design, and human-centered strategy</mark>.</p>
+      <p>When I'm not coding in React or designing social media graphics, you can usually find me making overly detailed slideshows for my favorite TV shows or trying out new recipes!</p>
+    </div>
+  </div>
+</section>
+
+<section class="life" aria-label="Life outside of work">
+  <span class="doodle yellow twinkle" style="top:4px;left:calc(50% + 190px);" aria-hidden="true">✶</span>
+  <p class="life-label">when I'm not designing&hellip;</p>
+  <div class="life-strip">
+    <div class="life-track">
+      <figure class="snap"><div class="snap-img" data-file="life-family.jpg"><img src="images/life-family.jpg" alt="My family" onerror="this.remove()"></div><figcaption>my family &#9825;</figcaption></figure>
+      <figure class="snap"><div class="snap-img" data-file="life-dog.jpg"><img src="images/life-dog.jpg" alt="My dog" onerror="this.remove()"></div><figcaption>my dog</figcaption></figure>
+      <figure class="snap"><div class="snap-img" data-file="life-concert-1.jpg"><img src="images/life-concert-1.jpg" alt="At a concert" onerror="this.remove()"></div><figcaption>i love concerts!</figcaption></figure>
+      <figure class="snap"><div class="snap-img" data-file="life-recipes.jpg"><img src="images/life-recipes.jpg" alt="A recipe I made" onerror="this.remove()"></div><figcaption>hang out with my friends</figcaption></figure>
+      <figure class="snap"><div class="snap-img" data-file="life-concert-2.jpg"><img src="images/life-concert-2.jpg" alt="Another concert" onerror="this.remove()"></div><figcaption>john summit :D</figcaption></figure>
+      <figure class="snap"><div class="snap-img" data-file="life-dog-2.jpg"><img src="images/life-dog-2.jpg" alt="More of my dog" onerror="this.remove()"></div><figcaption>more dog pics</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap">
+  <svg class="doodle yellow twinkle" style="top:40px;right:4%;width:48px" aria-hidden="true"><use href="#d-sparkle"/></svg>
+  <svg class="doodle hide-sm" style="bottom:30px;right:10%;width:100px;--tilt:-6deg" aria-hidden="true"><use href="#d-loop"/></svg>
+  <div class="sec-head reveal"><span class="num">02</span><h2 class="script">Skills &amp; toolkit</h2></div>
+  <div class="skill-cards reveal">
+    <div class="skill-card">
+      <h3>Design &amp; UX</h3>
+      <p>Human-Centered Design (HCD), Wireframing, Rapid Prototyping, Customer Journey Mapping</p>
+    </div>
+    <div class="skill-card">
+      <h3>Strategy &amp; Marketing</h3>
+      <p>Brand Architecture, UX Copywriting, Audience Growth, Newsletter Strategy</p>
+    </div>
+    <div class="skill-card">
+      <h3>Development</h3>
+      <p>React, Java, Python, SQL, HTML/CSS</p>
+    </div>
+  </div>
+  <div class="tools reveal" aria-label="Tools">
+    <span>Illustrator</span><span>Photoshop</span><span>Lightroom</span><span>Canva</span>
+    <span>Adobe XD</span><span>Slack</span><span>Google Suite</span><span>CapCut</span>
+  </div>
+</section>
+
+<section id="work" class="wrap">
+  <span class="doodle sm" style="top:60px;left:46%;" aria-hidden="true">✷</span>
+  <svg class="doodle yellow hide-sm" style="bottom:40px;left:-1%;width:50px;--tilt:14deg" aria-hidden="true"><use href="#d-heart"/></svg>
+  <div class="sec-head reveal"><span class="num">03</span><h2 class="script">Selected work</h2><p class="hint">click any project to see more!</p></div>
+  <div class="projects">
+    <a class="project reveal" href="grainger.html">
+      <div class="project-text">
+        <span class="num">No. 01 &mdash; Social media</span>
+        <h3>Grainger Engineering</h3>
+        <p>Instagram carousel graphics, student highlights, and story recaps.</p>
+        <span class="go">View case study</span>
+      </div>
+      <div class="stack fit">
+        <img src="images/cs-grainger-1.jpg" alt="Grainger Engineering preview 1">
+        <img src="images/cs-grainger-2.jpg" alt="Grainger Engineering preview 2">
+        <img src="images/cs-grainger-3.jpg" alt="Grainger Engineering preview 3">
+      </div>
+    </a>
+    <a class="project reveal" href="inkheart.html">
+      <div class="project-text">
+        <span class="num">No. 02 &mdash; Brand strategy</span>
+        <h3>InkHeart Strategy</h3>
+        <p>Brand architecture and strategy for a fictional book-preservation brand, built with AAF's Build-It agency team.</p>
+        <span class="go">View case study</span>
+      </div>
+      <div class="stack fit" style="grid-template-columns:1.3fr .77fr .77fr;">
+        <img src="images/cs-inkheart-1.jpg" alt="InkHeart Strategy preview 1">
+        <img src="images/cs-inkheart-2.jpg" alt="InkHeart Strategy preview 2">
+        <img src="images/cs-inkheart-3.jpg" alt="InkHeart Strategy preview 3">
+      </div>
+    </a>
+    <a class="project reveal" href="coursework.html">
+      <div class="project-text">
+        <span class="num">No. 03 &mdash; Class projects</span>
+        <h3>Coursework</h3>
+        <p>Selected class projects from Computer Science and Advertising coursework.</p>
+        <span class="go">View case study</span>
+      </div>
+      <div class="stack fit feature">
+        <img src="images/cs-coursework-1.jpg" alt="Coursework preview 1">
+        <img src="images/cs-coursework-2.jpg" alt="Coursework preview 2">
+        <img src="images/cs-coursework-3.jpg" alt="Coursework preview 3">
+      </div>
+    </a>
+    <a class="project reveal" href="research.html">
+      <div class="project-text">
+        <span class="num">No. 04 &mdash; Research</span>
+        <h3>Research</h3>
+        <p>"Creating with Compliance" &mdash; a student-led usability &amp; engagement study with Prof. Marisa Peacock.</p>
+        <span class="go">View case study</span>
+      </div>
+      <div class="stack fit duo">
+        <img src="images/cs-research-1.jpg" alt="Research preview 1">
+        <img src="images/cs-research-2.jpg" alt="Research preview 2">
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="cta wrap reveal">
+  <svg class="doodle yellow twinkle" style="top:70px;left:10%;width:52px" aria-hidden="true"><use href="#d-sparkle"/></svg>
+  <span class="doodle lg twinkle" style="top:36px;right:6%;--tilt:15deg" aria-hidden="true">✶</span>
+  <svg class="doodle hide-sm" style="bottom:70px;left:16%;width:56px;--tilt:-8deg" aria-hidden="true"><use href="#d-swirl"/></svg>
+  <svg class="doodle hide-sm" style="bottom:90px;right:16%;width:44px;--tilt:10deg" aria-hidden="true"><use href="#d-heart"/></svg>
+  <h2>Let's make something <em>together.</em></h2>
+  <p>Check out my resume, or reach out to me using the buttons below. I'd love to hear what you're working on!</p>
+  <div class="cta-links">
+    <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">My resume</a>
+    <a class="btn" href="mailto:tabang2@illinois.edu">Email</a>
+    <a class="btn" href="https://www.linkedin.com/in/theaabang/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<footer>&copy; 2026 Thea Abang &nbsp;✶&nbsp; Made with care</footer>
+
+<script>
+  // lets people drag the intro photos around. whatever you grab goes on top. refreshing puts them back
+  (function(){
+    var wall = document.querySelector('.work-wall');
+    if (!wall) return;
+    var top = 50;
+    wall.querySelectorAll('.work-tile').forEach(function(tile){
+      tile.addEventListener('pointerdown', function(e){
+        e.preventDefault();
+        tile.setPointerCapture(e.pointerId);
+        tile.classList.add('dragging');
+        tile.style.zIndex = ++top;
+        var box = wall.getBoundingClientRect();
+        var startX = e.clientX, startY = e.clientY;
+        var startLeft = tile.offsetLeft, startTop = tile.offsetTop;
+        function move(ev){
+          var x = startLeft + ev.clientX - startX, y = startTop + ev.clientY - startY;
+          // use percentages so it still lines up if the window changes size
+          tile.style.left = (x / box.width * 100) + '%';
+          tile.style.top = (y / box.height * 100) + '%';
+        }
+        function up(){
+          tile.classList.remove('dragging');
+          tile.removeEventListener('pointermove', move);
+          tile.removeEventListener('pointerup', up);
+          tile.removeEventListener('pointercancel', up);
+        }
+        tile.addEventListener('pointermove', move);
+        tile.addEventListener('pointerup', up);
+        tile.addEventListener('pointercancel', up);
+      });
+    });
+  })();
+  // copy the photos once so the strip loops forever. if someone has reduced motion on, it stays still and they can swipe instead
+  (function(){
+    var strip = document.querySelector('.life-strip');
+    if (!strip || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var track = strip.querySelector('.life-track');
+    Array.prototype.slice.call(track.children).forEach(function(el){
+      var copy = el.cloneNode(true);
+      copy.setAttribute('aria-hidden','true');
+      copy.querySelectorAll('img').forEach(function(img){ img.alt=''; });
+      track.appendChild(copy);
+    });
+    strip.classList.add('moving');
+  })();
+  // fade sections in as you scroll (skipped for people with reduced motion on)
+  (function(){
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.classList.add('js');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
