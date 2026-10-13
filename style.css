@@ -12,11 +12,11 @@
   --ink:#1A1A1A;
   --ink-soft:#4A4A4A;
   --tape:rgba(232,214,160,.78);
-  --font-title:"The Dreamer","Playfair Display",Georgia,serif;  /* only for the big "creative portfolio" title. the free version turns numbers into logo stamps, so no digits! */
-  --font-display:"Qafenough","Playfair Display",Georgia,serif;
+  --font-title:"The Dreamer",Georgia,serif;  /* only for the big "creative portfolio" title. the free version turns numbers into logo stamps, so no digits! */
+  --font-display:"Qafenough","Segoe Print",cursive;
   --font-body:"Space Grotesk",system-ui,-apple-system,sans-serif;
   --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  --font-hand:"Qafenough","Caveat","Segoe Print",cursive;
+  --font-hand:"Qafenough","Segoe Print",cursive;
 }
 
 html{scroll-behavior:smooth;}
@@ -30,12 +30,6 @@ body{
   font-synthesis:none; /* my fonts don't come in bold or italic, so stop the browser from faking it */
   position:relative;
 }
-/* subtle paper texture over everything */
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:100;
-  background-image:url("images/paper-texture.png");background-size:400px;
-  opacity:.18;mix-blend-mode:multiply;
-}
 img{max-width:100%;display:block;}
 .script{font-family:var(--font-display);font-style:italic;font-weight:700;}
 .wrap{max-width:1120px;margin:0 auto;padding-inline:24px;}
@@ -44,7 +38,7 @@ a:focus-visible{outline:3px solid var(--accent,#6B5CE0);outline-offset:4px;borde
 ::selection{background:var(--accent2,#FFD23F);color:var(--ink);}
 
 /* little typewriter labels (dates, tags, tiny headings) */
-.label,.eyebrow{
+.label{
   font-family:var(--font-mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
 }
 
@@ -136,19 +130,6 @@ li::marker{color:var(--accent,#6B5CE0);}
 /* ---------- footer ---------- */
 footer{padding:40px 0;text-align:center;color:var(--ink-soft);font-family:var(--font-mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;}
 
-/* ---------- quote + q&a cards ---------- */
-.testimonials{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;}
-.testimonial-card{background:var(--accent,#13294B);color:#fff;padding:22px;}
-.testimonial-card .avatar{aspect-ratio:1;background:#2c4a7c;margin-bottom:14px;}
-.testimonial-card h4{font-size:1rem;}
-.testimonial-card .role{color:var(--accent2,#E84A27);font-size:.85rem;font-weight:600;}
-.testimonial-card .major{font-size:.8rem;opacity:.8;margin-bottom:14px;}
-.testimonial-card .qa{background:var(--paper);color:var(--ink);padding:12px 14px;margin-top:10px;font-size:.88rem;line-height:1.5;}
-.testimonial-card .qa b{color:var(--accent2,#E84A27);display:block;margin-bottom:4px;}
-.pull-quote{background:var(--accent2,#E84A27);color:#fff;padding:28px;font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.4rem;line-height:1.3;margin-top:10px;}
-.pull-quote .label{display:block;font-family:var(--font-mono);font-style:normal;font-weight:400;font-size:.75rem;opacity:.85;margin-bottom:10px;}
-@media (max-width:700px){.testimonials{grid-template-columns:1fr;}}
-
 /* ---------- class info card (coursework page) ---------- */
 .exp-block{display:grid;gap:0;border-top:1.5px solid var(--ink);}
 .exp-card{display:flex;gap:24px;padding:24px 0;border-bottom:1.5px solid var(--ink);flex-wrap:wrap;}
@@ -157,22 +138,6 @@ footer{padding:40px 0;text-align:center;color:var(--ink-soft);font-family:var(--
 .exp-card h4{font-family:var(--font-hand);font-style:italic;font-size:1.4rem;line-height:1.2;}
 .exp-card .org{color:var(--accent,#6B5CE0);font-weight:600;font-size:.9rem;margin-bottom:6px;}
 .exp-card p{font-size:.95rem;color:var(--ink-soft);}
-
-/* ---------- brand board (inkheart page) ---------- */
-.brand-card{background:var(--accent,#5C6E3F);color:#fff;padding:24px;line-height:1.6;}
-.brand-card b{display:block;margin-bottom:2px;}
-.brand-card .block{margin-bottom:14px;}
-.swatches{display:flex;gap:8px;margin:10px 0;}
-.swatches span{width:30px;height:30px;border-radius:50%;display:inline-block;}
-
-/* ---------- paper texture on banners + footers ---------- */
-.texture{position:relative;}
-.texture::after{
-  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
-  background-image:url("images/paper-texture.png");background-size:400px;
-  opacity:.22;mix-blend-mode:multiply;
-}
-footer.texture .wrap{position:relative;z-index:2;}
 
 /* ---------- fade things in as you scroll (only runs if javascript is on) ---------- */
 .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
@@ -229,29 +194,9 @@ nav.site a.home-logo:hover img{transform:rotate(-8deg) scale(1.06);}
   .cs-trio{grid-template-columns:1fr;max-width:420px;margin-inline:auto;}
 }
 
-/* ---------- doodles ----------
-   little stars, hearts and squiggles that float behind stuff. just for fun!
-   give anything class="doodle" and nudge it with top/left/right/bottom, like:
-   <span class="doodle" style="top:20px;right:8%">✶</span>
-   <svg class="doodle" style="top:0;left:2%;width:60px"><use href="#d-heart"/></svg>
-   <img class="doodle" src="images/my-doodle.png" alt="" style="bottom:10%;right:4%;width:90px">  */
 html,body{overflow-x:clip;}
 section,header{position:relative;}
-section > :not(.doodle),header > :not(.doodle){position:relative;z-index:1;}
-.doodle{
-  position:absolute;z-index:0;pointer-events:none;user-select:none;
-  color:var(--accent,#5B4BD6);font-size:2.2rem;line-height:1;
-  --tilt:0deg;transform:rotate(var(--tilt));
-}
-svg.doodle{width:56px;height:auto;overflow:visible;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
-img.doodle{width:80px;height:auto;}
-.doodle.yellow{color:var(--accent2,#FFD23F);}
-.doodle.ink{color:var(--ink);}
-.doodle.sm{font-size:1.4rem;}
-.doodle.lg{font-size:3.2rem;}
-.doodle.twinkle{animation:twinkle 3.2s ease-in-out infinite;}
-@keyframes twinkle{50%{transform:rotate(var(--tilt)) scale(.75);opacity:.6;}}
-@media (max-width:600px){.doodle{font-size:1.5rem;}svg.doodle,img.doodle{width:40px;}.doodle.hide-sm{display:none;}}
+section > *,header > *{position:relative;z-index:1;}
 
 /* ---------- big numbers (grainger insights) ---------- */
 .stats-note{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:-10px 0 24px;}
@@ -270,4 +215,215 @@ img.doodle{width:80px;height:auto;}
   .stats{grid-template-columns:repeat(2,1fr);}
   .stat:nth-child(3){border-left:none;}
   .stat:nth-child(n+3){border-top:1.5px solid var(--ink);}
+}
+
+/* ==========================================================
+   homepage only (index.html). these used to live inside index.html
+   ========================================================== */
+
+/* intro: my work taped up in piles around the edges, title in the middle */
+.intro{overflow:hidden;}
+.cover{position:relative;display:grid;place-items:center;min-height:calc(100vh - 84px);min-height:calc(100svh - 84px);}
+.work-wall{position:absolute;inset:0;z-index:1;} /* so photos always stay under the title, even when dragged */
+/* each one gets a white border + tape, like the polaroids further down */
+.work-tile{position:absolute;width:var(--w);background:#fff;padding:6px 6px 18px;transform:rotate(var(--r));
+  box-shadow:0 4px 12px rgba(26,26,26,.12);transition:transform .25s ease;}
+.work-tile img{width:100%;height:auto;display:block;}
+.work-tile.crop-left img{aspect-ratio:4/3;object-fit:cover;object-position:left center;} /* the poster has a blank strip on the right, this hides it */
+.work-tile::before{content:"";position:absolute;top:-10px;left:50%;width:46%;max-width:76px;height:20px;
+  background:var(--tape);transform:translateX(-50%) rotate(-3deg);}
+.work-tile:nth-child(even)::before{transform:translateX(-50%) rotate(4deg);}
+/* secret "hi" hiding under the top-left photo hehe */
+.peekaboo{position:absolute;left:4%;top:15%;z-index:0;font-family:var(--font-hand);font-size:clamp(1.6rem,3vw,2.6rem);
+  color:var(--accent);transform:rotate(-10deg);white-space:nowrap;}
+/* the "psst" note under the title */
+.cover-hint{justify-self:start;margin:-1.4em 0 0 .6em;font-family:var(--font-hand);font-size:clamp(1rem,1.8vw,1.4rem);
+  color:var(--ink-soft);transform:rotate(-3deg);}
+/* draggable photos (the script is at the bottom) */
+.work-tile{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;}
+.work-tile img{pointer-events:none;-webkit-user-drag:none;}
+.work-tile:hover{transform:rotate(var(--r)) scale(1.03);}
+.work-tile.dragging{cursor:grabbing;transform:rotate(0deg) scale(1.06);box-shadow:0 16px 30px rgba(26,26,26,.25);transition:none;}
+@media (max-width:700px){
+  .work-tile.sm-hide{display:none;}
+  .cover-hint{margin-top:.4em;}
+  .peekaboo{left:9%;top:9%;}
+  .work-tile{--w:34% !important;}
+}
+.cover-text{position:relative;z-index:20;display:grid;justify-items:start;padding:24px;}
+.cover-by{font-family:var(--font-hand);font-size:clamp(1.8rem,5.5vw,4.4rem);color:var(--accent);line-height:1;
+  transform:rotate(-8deg);margin:0 0 -.8em -.6em;}
+.cover-title{font-family:var(--font-title);font-size:clamp(3rem,14vw,11.5rem);line-height:1.05;color:var(--ink);white-space:nowrap;}
+.cover-year{justify-self:end;font-family:var(--font-hand);font-size:clamp(1.2rem,3vw,2.4rem);color:var(--accent);line-height:1;margin-top:-1em;}
+/* the big "hello, i'm thea abang" */
+.hero-hi{padding-block:56px 24px;}
+.hi-panel{position:relative;padding-block:clamp(16px,3vw,40px);
+  display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;}
+.hi-text{position:relative;z-index:2;--fs:clamp(3.4rem,9.4vw,7.8rem);}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.cut{display:block;font-family:var(--font-display);font-weight:400;font-size:var(--fs);line-height:.92;text-transform:uppercase;color:var(--ink);
+  -webkit-text-stroke:.035em currentColor;text-shadow:.05em .06em 0 var(--accent2);} /* outline makes the letters chunkier, yellow shadow looks like a second layer of paper */
+.cut .line{display:block;white-space:nowrap;}
+.cut .name{color:var(--accent);}
+/* tilt the letters a bit so it looks cut out and glued on */
+.cut .ch{display:inline-block;transition:transform .2s ease;}
+.cut .ch:nth-child(odd){transform:rotate(-6deg) translateY(.03em);}
+.cut .ch:nth-child(3n){transform:rotate(7deg) translateY(-.05em);}
+.cut .ch:nth-child(4n){transform:rotate(-3deg) translateY(.06em) scale(1.06);}
+.cut .ch:nth-child(5n){transform:rotate(4deg) scale(.94);}
+.cut .ch:hover{transform:rotate(-10deg) scale(1.12);}
+.cut .sp{display:inline-block;width:.3em;}
+/* the little bio under "hello, i'm thea abang" */
+.hi-bio{margin-top:28px;max-width:46ch;display:grid;gap:14px;}
+.hi-bio p:first-child{font-size:clamp(1.1rem,1.8vw,1.3rem);font-weight:500;line-height:1.5;}
+.hi-bio p + p{color:var(--ink-soft);}
+.roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.roles span{
+  font-family:var(--font-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1.5px solid var(--ink);color:var(--ink);background:var(--paper);border-radius:999px;padding:8px 14px;
+}
+.roles span:nth-child(2){background:var(--accent2);}
+.hi-blob{position:absolute;right:-2%;top:6%;width:min(46%,440px);height:auto;fill:var(--accent2);z-index:0;}
+.hi-panel .polaroid{z-index:2;}
+@media (max-width:860px){
+  .hi-panel{grid-template-columns:1fr;}
+  .hi-text{--fs:15vw;}
+  .hi-blob{width:80%;top:auto;bottom:4%;right:10%;}
+    }
+@media (prefers-reduced-motion:reduce){.cut .ch:hover{transform:none;}}
+
+.polaroid{position:relative;background:#fff;padding:14px 14px 56px;transform:rotate(3deg);max-width:380px;justify-self:center;width:100%;}
+.polaroid img{width:100%;aspect-ratio:4/5;object-fit:cover;}
+.polaroid figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:var(--font-hand);font-size:1.6rem;line-height:1;}
+.polaroid::before,.polaroid::after{content:"";position:absolute;width:110px;height:30px;background:var(--tape);z-index:2;}
+.polaroid::before{top:-14px;left:-26px;transform:rotate(-32deg);}
+.polaroid::after{top:-14px;right:-26px;transform:rotate(32deg);}
+
+.sticker{
+  position:absolute;width:118px;height:118px;border-radius:50%;background:var(--accent2);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;line-height:1.35;
+  transform:rotate(-12deg);z-index:3;
+}
+.polaroid .sticker{left:-48px;bottom:40px;}
+
+/* life strip (the scrolling polaroids) */
+.life{padding-block:24px 8px;overflow:hidden;}
+.life-label{font-family:var(--font-hand);font-size:1.9rem;color:var(--accent);text-align:center;transform:rotate(-2deg);margin-bottom:8px;}
+.life-strip{overflow-x:auto;scrollbar-width:none;padding-block:28px 36px;}
+.life-strip::-webkit-scrollbar{display:none;}
+.life-track{display:flex;gap:36px;width:max-content;padding-inline:24px;}
+.life-strip.moving{overflow:hidden;}
+.life-strip.moving .life-track{padding-inline:0;animation:drift 45s linear infinite;}
+.life-strip.moving:hover .life-track{animation-play-state:paused;}
+@keyframes drift{to{transform:translateX(calc(-50% - 18px));}}
+.snap{position:relative;flex:0 0 auto;width:220px;background:#fff;padding:10px 10px 48px;transition:transform .3s ease;}
+.snap:nth-child(odd){transform:rotate(-3deg);}
+.snap:nth-child(even){transform:rotate(2.5deg) translateY(14px);}
+.snap:hover{transform:rotate(0) scale(1.05);z-index:2;}
+.snap::before{content:"";position:absolute;top:-12px;left:50%;width:80px;height:24px;background:var(--tape);transform:translateX(-50%) rotate(-3deg);z-index:2;}
+.snap-img{position:relative;aspect-ratio:1;background:var(--lavender);}
+.snap:nth-child(4n+2) .snap-img{background:var(--butter);}
+.snap:nth-child(4n+3) .snap-img{background:var(--mint);}
+.snap:nth-child(4n) .snap-img{background:var(--blush);}
+.snap-img::after{ /* reminds me which file goes here until i add the photo */
+  content:"add " attr(data-file);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;color:var(--ink-soft);
+}
+.snap-img img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;}
+.snap figcaption{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:var(--font-hand);font-size:1.5rem;line-height:1;}
+@media (max-width:480px){.snap{width:170px;}.snap figcaption{font-size:1.25rem;}}
+
+/* section headers */
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:44px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:16px;}
+.sec-head h2{margin:0;}
+
+/* skills */
+.skill-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.skill-card{background:#fff;padding:28px 24px;position:relative;
+  background-image:repeating-linear-gradient(transparent 0 31px,rgba(91,75,214,.13) 31px 32px);background-position:0 58px;}
+.skill-card:nth-child(1){transform:rotate(-1.2deg);}
+.skill-card:nth-child(2){transform:rotate(.8deg);background-color:var(--butter);}
+.skill-card:nth-child(3){transform:rotate(-.6deg);}
+.skill-card::before{content:"";position:absolute;top:-12px;left:28px;width:84px;height:24px;background:var(--tape);transform:rotate(-4deg);}
+.skill-card h3{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--accent);margin-bottom:12px;}
+.skill-card p{line-height:2;}
+.tools{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;}
+.tools span{
+  font-weight:600;font-size:.95rem;padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);background:#fff;
+  transition:transform .2s ease;
+}
+.tools span:nth-child(4n+1){background:var(--lavender);transform:rotate(-2deg);}
+.tools span:nth-child(4n+2){background:var(--butter);transform:rotate(1.5deg);}
+.tools span:nth-child(4n+3){background:var(--mint);transform:rotate(-1deg);}
+.tools span:nth-child(4n){background:var(--blush);transform:rotate(2deg);}
+.tools span:hover{transform:rotate(0) translateY(-3px);}
+
+/* work */
+.hint{font-family:var(--font-hand);font-size:1.7rem;color:var(--accent);transform:rotate(-2deg);margin-left:auto;}
+.projects{display:grid;gap:40px;}
+.project{
+  display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center;
+  padding:36px;text-decoration:none;color:var(--ink);position:relative;
+  transition:transform .3s ease;
+}
+.project:nth-child(1){background:var(--lavender);}
+.project:nth-child(2){background:var(--butter);}
+.project:nth-child(3){background:var(--mint);}
+.project:nth-child(4){background:var(--blush);}
+.project:nth-child(even){grid-template-columns:1.5fr 1fr;}
+.project:nth-child(even) .project-text{order:2;}
+.project:hover{transform:rotate(-.6deg) translateY(-4px);}
+.project:nth-child(even):hover{transform:rotate(.6deg) translateY(-4px);}
+.project:focus-visible{outline:3px solid var(--ink);outline-offset:6px;}
+.project .num{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.project h3{font-family:var(--font-display);font-style:italic;font-weight:900;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.02em;margin:10px 0 14px;}
+.project p{color:var(--ink-soft);max-width:44ch;}
+.project .go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;}
+.project .go::after{content:"→";font-size:1.2rem;transition:transform .2s ease;}
+.project:hover .go::after{transform:translateX(6px);}
+/* the preview pics on each project card */
+.stack{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative;}
+.stack img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;}
+.stack img:nth-child(1){transform:rotate(-2deg);}
+.stack img:nth-child(3){transform:rotate(2deg);}
+.stack::before,.stack::after{content:"";position:absolute;width:76px;height:22px;background:var(--tape);z-index:2;}
+.stack::before{top:-10px;left:6%;transform:rotate(-8deg);}
+.stack::after{bottom:-10px;right:8%;transform:rotate(6deg);}
+/* "fit" = pics keep their real shape instead of getting squished into squares.
+   match the column widths to the pics (wider pic = bigger number) */
+.stack.fit{align-items:center;}
+.stack.fit img{aspect-ratio:auto;height:auto;}
+.stack.duo{grid-template-columns:4fr 5.3fr;gap:18px;}
+.stack.duo img:nth-child(2){transform:rotate(2deg);}
+/* one big pic on top, two underneath (good for wide slides) */
+.stack.feature{grid-template-columns:1fr 1fr;}
+.stack.feature img:first-child{grid-column:1/-1;}
+
+/* contact */
+.cta{text-align:center;padding-block:100px 80px;}
+.cta h2{font-family:var(--font-display);font-weight:900;font-size:clamp(2.6rem,8vw,6rem);line-height:.95;letter-spacing:-.03em;}
+.cta h2 em{color:var(--accent);}
+.cta p{margin:24px auto 0;max-width:46ch;font-size:1.1rem;color:var(--ink-soft);}
+.cta-links{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:36px;}
+.btn{
+  display:inline-block;text-decoration:none;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  padding:16px 26px;border:1.5px solid var(--ink);color:var(--ink);background:var(--paper);
+  box-shadow:4px 4px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn.primary{background:var(--accent2);}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
+
+/* phone stuff */
+@media (max-width:860px){
+  .skill-cards{grid-template-columns:1fr;gap:36px;}
+  .project,.project:nth-child(even){grid-template-columns:1fr;padding:28px 22px;gap:28px;}
+  .project:nth-child(even) .project-text{order:0;}
+  .hint{margin-left:0;}
+}
+@media (max-width:480px){
+  nav.site a{margin-left:14px;}
+  .polaroid .sticker{width:96px;height:96px;left:-20px;font-size:.6rem;}
+  .stack{gap:8px;}
 }
