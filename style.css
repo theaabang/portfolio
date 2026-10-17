@@ -422,3 +422,6 @@ section > *,header > *{position:relative;z-index:1;}
   .polaroid .sticker{width:96px;height:96px;left:-20px;font-size:.6rem;}
   .stack{gap:8px;}
 }
+
+/* "my part" section on project pages, so it's clear what i did on each team */
+.my-part ul{max-width:65ch;line-height:1.8;display:grid;gap:4px;}
