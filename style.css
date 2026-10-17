@@ -206,11 +206,6 @@ section > *,header > *{position:relative;z-index:1;}
 .stat b{font-family:var(--font-hand);font-style:italic;font-weight:900;font-size:clamp(2rem,4.5vw,3.2rem);line-height:1;letter-spacing:-.02em;color:var(--accent,#6B5CE0);}
 .stat span{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
 .stats-sub{margin-top:18px;color:var(--ink-soft);}
-/* the actual screenshots underneath, as receipts */
-.receipts{display:flex;gap:32px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:48px;}
-.receipts img{width:min(100%,380px);height:auto;border-radius:10px;position:relative;box-shadow:0 10px 24px rgba(26,26,26,.18);}
-.receipts img:nth-child(1){transform:rotate(-2deg);}
-.receipts img:nth-child(2){transform:rotate(1.5deg);margin-top:24px;}
 @media (max-width:760px){
   .stats{grid-template-columns:repeat(2,1fr);}
   .stat:nth-child(3){border-left:none;}
