@@ -14,6 +14,20 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+  // if you got here by ripping a post-it off the homepage, start covered in its color and fade in
+  try {
+    var ripColor = sessionStorage.getItem('ripColor');
+    if (ripColor) {
+      sessionStorage.removeItem('ripColor');
+      var cover = document.createElement('div');
+      cover.className = 'rip-in';
+      cover.style.background = ripColor;
+      document.body.appendChild(cover);
+      cover.addEventListener('animationend', function(){ cover.remove(); });
+    }
+  } catch (err) {}
+</script>
 
 <nav class="site"><div class="wrap">
   <strong>Thea Abang</strong>

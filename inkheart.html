@@ -8,21 +8,33 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#5C6E3F; --accent2:#9C3B2E; --ink:#1A1A1A; --bg:#FAF6EC;
-    --hero-bg: linear-gradient(135deg,#3a2e2e,#5c6e3f);
+    --accent:#5C6E3F; --accent2:#9C3B2E; --ink:#1A1A1A; --bg:#FAF6EC; --hero-accent:#F2E3C6;
   }
 </style>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+  // if you got here by ripping a post-it off the homepage, start covered in its color and fade in
+  try {
+    var ripColor = sessionStorage.getItem('ripColor');
+    if (ripColor) {
+      sessionStorage.removeItem('ripColor');
+      var cover = document.createElement('div');
+      cover.className = 'rip-in';
+      cover.style.background = ripColor;
+      document.body.appendChild(cover);
+      cover.addEventListener('animationend', function(){ cover.remove(); });
+    }
+  } catch (err) {}
+</script>
 
 <nav class="site"><div class="wrap">
   <strong>Thea Abang</strong>
   <a class="home-logo" href="index.html" title="Back to home"><img src="images/logo-ta.png" alt="Back to home"></a>
 </div></nav>
 
-<header class="hero">
-  <img class="hero-photo" src="images/inkheart-hero.jpg" alt="InkHeart hero background">
+<header class="hero plain">
   <div class="wrap">
     <h1><span class="accent">Ink</span>Heart</h1>
     <p>Preserve the stories that connect us from Ink to Heart.</p>
@@ -71,6 +83,18 @@
       <figcaption><b>Brand blueprint</b></figcaption>
     </figure>
   </div>
+</section>
+
+<section class="wrap cs-section">
+  <div class="cs-head">
+    <span class="label">Process</span>
+    <h2 class="block">Early sketches</h2>
+  </div>
+  <p style="max-width:65ch;margin-bottom:28px;">These are my first drafts for the brand poster and brand apology. I wanted to capture InkHeart&rsquo;s colors and fonts, use a three-line border to mimic the packaging, and give part two a scrapbook feel with a paper heart and stickers.</p>
+  <figure class="frame" style="max-width:760px;">
+    <div class="art" style="--ratio:1243/1030" data-file="inkheart-sketches.jpg"><img src="images/inkheart-sketches.jpg" alt="Hand-drawn drafts of the InkHeart brand poster and brand apology, with notes on colors, a three-line border and a scrapbook feel" onerror="this.remove()"></div>
+    <figcaption><b>Drafts</b></figcaption>
+  </figure>
 </section>
 
 <section class="wrap cs-section">

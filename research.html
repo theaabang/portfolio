@@ -9,23 +9,32 @@
 <style>
   :root{
     --accent:#A94837; --accent2:#F4C66F; --ink:#1A1A1A; --bg:#FAFAF7;
-    --hero-bg: linear-gradient(135deg,#5c1f1f,#A94837);
   }
-  /* taller banner, photo nudged up so all our faces show above the title */
-  header.hero{padding-top:clamp(200px,42vw,600px);}
-  .hero img.hero-photo{object-position:center 10%;}
 </style>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+  // if you got here by ripping a post-it off the homepage, start covered in its color and fade in
+  try {
+    var ripColor = sessionStorage.getItem('ripColor');
+    if (ripColor) {
+      sessionStorage.removeItem('ripColor');
+      var cover = document.createElement('div');
+      cover.className = 'rip-in';
+      cover.style.background = ripColor;
+      document.body.appendChild(cover);
+      cover.addEventListener('animationend', function(){ cover.remove(); });
+    }
+  } catch (err) {}
+</script>
 
 <nav class="site"><div class="wrap">
   <strong>Thea Abang</strong>
   <a class="home-logo" href="index.html" title="Back to home"><img src="images/logo-ta.png" alt="Back to home"></a>
 </div></nav>
 
-<header class="hero">
-  <img class="hero-photo" src="images/research-hero.jpg" alt="Research hero background">
+<header class="hero plain">
   <div class="wrap">
     <h1>Creating with <span class="accent">Compliance</span></h1>
     <p>A STUDENT-LED USABILITY &amp; ENGAGEMENT STUDY</p>

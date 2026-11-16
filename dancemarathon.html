@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dance Marathon | Thea Abang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#B94A34; --accent2:#F4B9B5; --ink:#1A1A1A; --bg:#FAFAF7;
+  }
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script>
+  // if you got here by ripping a post-it off the homepage, start covered in its color and fade in
+  try {
+    var ripColor = sessionStorage.getItem('ripColor');
+    if (ripColor) {
+      sessionStorage.removeItem('ripColor');
+      var cover = document.createElement('div');
+      cover.className = 'rip-in';
+      cover.style.background = ripColor;
+      document.body.appendChild(cover);
+      cover.addEventListener('animationend', function(){ cover.remove(); });
+    }
+  } catch (err) {}
+</script>
+
+<nav class="site"><div class="wrap">
+  <strong>Thea Abang</strong>
+  <a class="home-logo" href="index.html" title="Back to home"><img src="images/logo-ta.png" alt="Back to home"></a>
+</div></nav>
+
+<header class="hero plain">
+  <div class="wrap">
+    <h1>Dance <span class="accent">Marathon</span></h1>
+    <p>DISTRICT 219 &nbsp;|&nbsp; NILES NORTH &amp; NILES WEST</p>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="row">
+    <div class="text">
+      <h2 class="block">My role</h2>
+      <p>District 219 (Niles North and Niles West) joined forces in 2003 to create its own Dance Marathon, a completely student-run organization that helps a different charity each year. Through canning, bake sales, events, and fundraisers, members of DM help the charity by raising money all year long.</p>
+      <p style="margin-top:14px;">As PR Executive, I managed a team of five to plan weekly content for Dance Marathon&rsquo;s Instagram. Our posts promoted fundraisers and events, introduced committees, and shared the charity we were raising money for.</p>
+      <p style="margin-top:14px;">I based Dance Marathon&rsquo;s brand identity on the colors of that year&rsquo;s beneficiary, <a href="https://willsplaceskokie.com/" target="_blank" rel="noopener">Will&rsquo;s Place</a>, so every post tied back to the charity we were supporting.</p>
+    </div>
+    <div class="meta side">
+      <p><strong>Role</strong>: PR Executive</p><br>
+      <p><strong>Team</strong>: Managed a team of five</p><br>
+      <p><strong>Platform</strong>: Instagram posts &amp; stories</p><br>
+      <p><strong>Target Audience</strong>: D219 students, families, and the local community</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 class="block">Events &amp; fundraisers</h2>
+  <div class="grid fit">
+    <img src="images/dm-backlot-bash.jpg" alt="Backlot Bash: face painting, hair wraps, and henna, August 25 to 27">
+    <img src="images/dm-who-club.jpg" alt="Will's Place and DM WHO Club, August 30, free food">
+    <img src="images/dm-mixer.jpg" alt="Freshman and sophomore mixer, Friday September 1, 2023">
+    <img src="images/dm-thrift-collections.jpg" alt="Thrift store collections, September 8 to 15">
+    <img src="images/dm-thrift-store.jpg" alt="Thrift store, September 20 to 22 in the New Commons">
+    <img src="images/dm-5k-qr.jpg" alt="D219 Dance Marathon 5K sign-up with QR code">
+    <img src="images/dm-5k-run.jpg" alt="5K run, Sunday October 15 at Niles West, Two Cardio Days cookie mascot">
+    <img src="images/dm-vshow-auditions.jpg" alt="V-Show auditions, October 18th">
+    <img src="images/dm-vshow-tickets.jpg" alt="V-Show ticket, November 10, 2023, in the auditorium">
+    <img src="images/dm-soccer.jpg" alt="Girls soccer vs. boys soccer fundraiser, November 17, 2023">
+    <img src="images/dm-trivia.jpg" alt="Trivia night, December 1, teams of 3 to 6">
+    <img src="images/dm-rose-sale.jpg" alt="Rose sale presale, February 8, 9 and 12">
+    <img src="images/dm-relationships-panel.jpg" alt="Healthy relationships panel, February 14">
+    <img src="images/dm-half-birthday.jpg" alt="Dance Marathon's half birthday, February 28, free pizza and cake">
+    <img src="images/dm-pickleball.jpg" alt="Pickleball tournament, Thursday May 2nd in the fieldhouse">
+    <img src="images/dm-junior-highs.jpg" alt="Battle of the Junior Highs match, May 7, 2024">
+    <img src="images/dm-raffle.jpg" alt="Raffle contest for seniors to win a graduation ticket">
+    <img src="images/dm-charity-nominations.jpg" alt="Charity nominations for Dance Marathon 2024 to 2025">
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 class="block">Instagram stories</h2>
+  <div class="grid fit cols-5">
+    <img src="images/dm-thrift-story.jpg" alt="Thrift store story, September 20 until the 22nd">
+    <img src="images/dm-thrift-donations.jpg" alt="Thrift donations story, September 8 to 15">
+    <img src="images/dm-performances.jpg" alt="V-Show upcoming performances lineup, November 10, 2023">
+    <img src="images/dm-hoodies.jpg" alt="Dance Marathon hoodies, sizes and prices">
+    <img src="images/dm-tshirt.jpg" alt="Dance Marathon t-shirt, sizes and prices">
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 class="block">Animated posts</h2>
+  <div class="grid fit cols-4">
+    <video src="video/dm-tshirt.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Animated t-shirt merch post"></video>
+    <video src="video/dm-hoodies.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Animated hoodie merch post"></video>
+    <video src="video/dm-5k-shirt.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Animated 5K t-shirt merch post"></video>
+    <video src="video/dm-vshow.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Animated V-Show announcement, Friday 7 PM at Niles North auditorium"></video>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 class="block">Committee spotlights &amp; our charity</h2>
+  <div class="grid fit">
+    <img src="images/dm-edu-foundation-1.jpg" alt="What is the Education Foundation?">
+    <img src="images/dm-edu-foundation-2.jpg" alt="The Education Foundation is a nonprofit supporting students in Niles Township">
+    <img src="images/dm-special-events.jpg" alt="Special events: meet one of our amazing committees">
+    <img src="images/dm-operations-1.jpg" alt="Operations committee members">
+    <img src="images/dm-operations-2.jpg" alt="What the Operations committee does, when they meet, and why to join">
+    <img src="images/dm-interested.jpg" alt="Interested? Use our Linktree in bio to fill out the Google form">
+  </div>
+</section>
+
+<footer style="background:var(--accent);color:#fff;padding:60px 0;">
+  <div class="wrap">
+    <p><a class="back-link" href="index.html">&larr; Back to home</a></p>
+  </div>
+</footer>
+
+<script>
+  // stop the looping videos for people who have reduced motion turned on (they can still tap play)
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('video[autoplay]').forEach(function(v){ v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+  }
+</script>
+
+</body>
+</html>

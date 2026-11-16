@@ -64,10 +64,10 @@ nav.site a:hover{background-size:100% 40%;}
 .hero .accent{color:var(--accent2,#FFD23F);}
 .hero p{margin-top:18px;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;}
 /* plain version of the banner: just the title on paper, no photo */
-.hero.plain{background:none;color:var(--ink);padding:96px 0 32px;}
+.hero.plain{background:var(--accent);color:#fff;padding:96px 0 64px;}
 .hero.plain::before{display:none;}
-.hero.plain .accent{color:var(--accent,#6B5CE0);}
-.hero.plain p{color:var(--ink-soft);}
+.hero.plain .accent{color:var(--hero-accent,var(--accent2));}
+.hero.plain p{color:rgba(255,255,255,.82);}
 
 /* ---------- slideshow (coursework page) ----------
    each slide is a 16:9 box. if the image isn't there yet it tells me which file to add.
@@ -275,9 +275,9 @@ section > *,header > *{position:relative;z-index:1;}
 .roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
 .roles span{
   font-family:var(--font-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
-  border:1.5px solid var(--ink);color:var(--ink);background:var(--paper);border-radius:999px;padding:8px 14px;
+  border:1.5px solid var(--ink);color:var(--ink);background:var(--butter);border-radius:999px;padding:8px 14px;
 }
-.roles span:nth-child(2){background:var(--accent2);}
+.roles span:nth-child(even){background:var(--lavender);}
 .hi-blob{position:absolute;right:-2%;top:6%;width:min(46%,440px);height:auto;fill:var(--accent2);z-index:0;}
 .hi-panel .polaroid{z-index:2;}
 @media (max-width:860px){
@@ -345,13 +345,14 @@ section > *,header > *{position:relative;z-index:1;}
 .skill-card p{line-height:2;}
 .tools{display:flex;flex-wrap:wrap;gap:12px;margin-top:48px;}
 .tools span{
-  font-weight:600;font-size:.95rem;padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);background:#fff;
+  font-weight:600;font-size:.95rem;padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);background:var(--butter);
   transition:transform .2s ease;
 }
-.tools span:nth-child(4n+1){background:var(--lavender);transform:rotate(-2deg);}
-.tools span:nth-child(4n+2){background:var(--butter);transform:rotate(1.5deg);}
-.tools span:nth-child(4n+3){background:var(--mint);transform:rotate(-1deg);}
-.tools span:nth-child(4n){background:var(--blush);transform:rotate(2deg);}
+.tools span:nth-child(even){background:var(--lavender);}
+.tools span:nth-child(4n+1){transform:rotate(-2deg);}
+.tools span:nth-child(4n+2){transform:rotate(1.5deg);}
+.tools span:nth-child(4n+3){transform:rotate(-1deg);}
+.tools span:nth-child(4n){transform:rotate(2deg);}
 .tools span:hover{transform:rotate(0) translateY(-3px);}
 
 /* work */
@@ -360,18 +361,31 @@ section > *,header > *{position:relative;z-index:1;}
 .project{
   display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center;
   padding:36px;text-decoration:none;color:var(--ink);position:relative;
-  transition:transform .3s ease;
+  /* post-it look, same as the skill cards: lined paper, tape, a slight tilt */
+  background:#fff;background-image:repeating-linear-gradient(transparent 0 31px,rgba(91,75,214,.13) 31px 32px);
+  --tilt:-.5deg;transform:rotate(var(--tilt));
 }
-.project:nth-child(1){background:var(--lavender);}
-.project:nth-child(2){background:var(--butter);}
-.project:nth-child(3){background:var(--mint);}
-.project:nth-child(4){background:var(--blush);}
+.project:nth-child(even){--tilt:.5deg;}
+/* post-its stay white; the small label uses each project page's main color */
+.project[href="grainger.html"]{--label:#13294B;}
+.project[href="dancemarathon.html"]{--label:#B94A34;}
+.project[href="inkheart.html"]{--label:#5C6E3F;}
+.project[href="coursework.html"]{--label:#6B5CE0;}
+.project[href="research.html"]{--label:#A94837;}
+.js .project.reveal.is-in{transform:rotate(var(--tilt));} /* keep the tilt after the fade-in */
+.project::before{content:"";position:absolute;top:-12px;left:36px;width:96px;height:26px;background:var(--tape);transform:rotate(-4deg);z-index:1;}
+/* rip the post-it off when you click it (script in index.html) */
+.rip-note{position:fixed;z-index:1000;transform-style:preserve-3d;pointer-events:none;}
+.rip-note .rip-front,.rip-note .rip-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;margin:0;}
+.rip-note .rip-front{transform:none!important;box-shadow:0 20px 40px rgba(26,26,26,.25);}
+.rip-note .rip-back{transform:rotateX(180deg);}
+/* project pages: the post-it's color covers the screen, then fades away (script at the top of each page) */
+.rip-in{position:fixed;inset:0;z-index:1000;pointer-events:none;animation:rip-in .55s ease .05s forwards;}
+@keyframes rip-in{to{opacity:0;visibility:hidden;}}
 .project:nth-child(even){grid-template-columns:1.5fr 1fr;}
 .project:nth-child(even) .project-text{order:2;}
-.project:hover{transform:rotate(-.6deg) translateY(-4px);}
-.project:nth-child(even):hover{transform:rotate(.6deg) translateY(-4px);}
 .project:focus-visible{outline:3px solid var(--ink);outline-offset:6px;}
-.project .num{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.project .num{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--label,var(--accent));}
 .project h3{font-family:var(--font-display);font-style:italic;font-weight:900;font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.02em;margin:10px 0 14px;}
 .project p{color:var(--ink-soft);max-width:44ch;}
 .project .go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;}
@@ -425,3 +439,11 @@ section > *,header > *{position:relative;z-index:1;}
 
 /* "my part" section on project pages, so it's clear what i did on each team */
 .my-part ul{max-width:65ch;line-height:1.8;display:grid;gap:4px;}
+
+/* more grid widths (dance marathon page). 4 or 5 across on big screens, 2 on phones */
+.grid.cols-4{grid-template-columns:repeat(4,1fr);}
+.grid.cols-5{grid-template-columns:repeat(5,1fr);}
+@media (max-width:640px){.grid.cols-4,.grid.cols-5{grid-template-columns:repeat(2,1fr);}}
+/* looping videos sit in the grids like pics do */
+.grid video{width:100%;height:auto;display:block;background:var(--paper-2);}
+.section-note{max-width:65ch;color:var(--ink-soft);margin:-10px 0 24px;}

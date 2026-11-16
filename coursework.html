@@ -14,6 +14,20 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>
+  // if you got here by ripping a post-it off the homepage, start covered in its color and fade in
+  try {
+    var ripColor = sessionStorage.getItem('ripColor');
+    if (ripColor) {
+      sessionStorage.removeItem('ripColor');
+      var cover = document.createElement('div');
+      cover.className = 'rip-in';
+      cover.style.background = ripColor;
+      document.body.appendChild(cover);
+      cover.addEventListener('animationend', function(){ cover.remove(); });
+    }
+  } catch (err) {}
+</script>
 
 <nav class="site"><div class="wrap">
   <strong>Thea Abang</strong>
@@ -23,16 +37,64 @@
 <header class="hero plain">
   <div class="wrap">
     <h1>Course<span class="accent">work</span></h1>
-    <p>ADV 250 &nbsp;|&nbsp; Spring 2026  </p>
+    <p>DTX 495 &nbsp;|&nbsp; ADV 250</p>
   </div>
 </header>
 
 <section class="wrap">
   <div class="exp-block">
     <div class="exp-card">
+      <div class="dates">Fall 2026</div>
+      <div class="content">
+        <h4>DTX 495 &mdash; Designing with Data</h4>
+        <div class="org">Discovery Brief One: Cycling</div>
+        <p>In this class, we write &ldquo;How might we&rdquo; statements based on data we&rsquo;re given and data we research ourselves. For this brief, CCRPC and UIUC wanted to increase cycling on and around campus for both confident and traffic-anxious riders. Working individually, I analyzed monthly bicycle counts from four campus counters (Illini Union, Morrow Plots, Armory &amp; Fourth, and Green &amp; Lincoln) from August to November 2025, along with bicycle theft reports from UIPD. From there, I identified one service problem and two priorities for further research.</p>
+        <p style="margin-top:10px;font-style:italic;">Note: the clients in this brief are only for this assignment. </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap my-part">
+  <h2 class="block">What I did</h2>
+  <ul>
+    <li>Cleaned the counter data, leaving out offline months instead of counting them as zero.</li>
+    <li>Charted monthly counts for each site and compared them across all four.</li>
+    <li>Wrote an assumption and a way to test it for each finding.</li>
+    <li>Framed the problem as a &ldquo;How might we&rdquo; question and set two research priorities.</li>
+    <li>Designed the slide deck.</li>
+  </ul>
+</section>
+
+<section class="wrap" style="padding-block:56px 80px;">
+  <h2 class="script" style="margin-bottom:20px;">The brief</h2>
+  <div class="slideshow">
+    <div class="slides" tabindex="0" aria-label="DTX 495 slides">
+      <div class="slide" data-file="dtx495-slide-1.jpg"><img src="images/dtx495-slide-1.jpg" alt="DTX 495 discovery brief slide 1" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-2.jpg"><img src="images/dtx495-slide-2.jpg" alt="DTX 495 discovery brief slide 2" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-3.jpg"><img src="images/dtx495-slide-3.jpg" alt="DTX 495 discovery brief slide 3" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-4.jpg"><img src="images/dtx495-slide-4.jpg" alt="DTX 495 discovery brief slide 4" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-5.jpg"><img src="images/dtx495-slide-5.jpg" alt="DTX 495 discovery brief slide 5" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-6.jpg"><img src="images/dtx495-slide-6.jpg" alt="DTX 495 discovery brief slide 6" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-7.jpg"><img src="images/dtx495-slide-7.jpg" alt="DTX 495 discovery brief slide 7" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-8.jpg"><img src="images/dtx495-slide-8.jpg" alt="DTX 495 discovery brief slide 8" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-9.jpg"><img src="images/dtx495-slide-9.jpg" alt="DTX 495 discovery brief slide 9" onerror="this.remove()"></div>
+      <div class="slide" data-file="dtx495-slide-10.jpg"><img src="images/dtx495-slide-10.jpg" alt="DTX 495 discovery brief slide 10" onerror="this.remove()"></div>
+    </div>
+    <div class="slide-controls">
+      <button type="button" class="prev" aria-label="Previous slide">&larr; prev</button>
+      <span class="slide-count" aria-live="polite">1 / 10</span>
+      <button type="button" class="next" aria-label="Next slide">next &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="exp-block">
+    <div class="exp-card">
       <div class="dates">Spring 2026</div>
       <div class="content">
-        <h4>ADV 250 &mdash; Advertising and Brand Strategy </h4>
+        <h4>ADV 250 &mdash; Advertising and Brand Strategy</h4>
         <div class="org">Wubbles</div>
         <p>Throughout the semester, my group and I were assigned to create a product and build a brand and advertising identity. We did this by researching competitors, finding insights, and creating mockup campaigns.</p>
       </div>
@@ -51,7 +113,7 @@
 </section>
 
 <section class="wrap" style="padding-block:56px 80px;">
-  <h2 class="script" style="margin-bottom:20px;">The deck</h2>
+  <h2 class="script" style="margin-bottom:20px;">The ADV 250 deck</h2>
   <!-- my slides go in images/ as adv250-slide-1.jpg, -2, -3... copy a line to add another -->
   <div class="slideshow">
     <div class="slides" tabindex="0" aria-label="ADV 250 slides">
@@ -80,20 +142,18 @@
 
 <footer style="background:var(--accent);color:#fff;padding:60px 0;">
   <div class="wrap">
-    <div class="script" style="font-size:2rem;">ta</div>
     <p style="margin-top:14px;"><a class="back-link" href="index.html">&larr; Back to home</a></p>
   </div>
 </footer>
 
 <script>
-  // makes the arrow buttons + slide counter work. swiping works on its own
-  (function(){
-    var track = document.querySelector('.slides');
-    if (!track) return;
+  // makes the arrow buttons + slide counter work for every deck on the page. swiping works on its own
+  document.querySelectorAll('.slideshow').forEach(function(show){
+    var track = show.querySelector('.slides');
     var slides = track.querySelectorAll('.slide');
-    var prev = document.querySelector('.slide-controls .prev');
-    var next = document.querySelector('.slide-controls .next');
-    var count = document.querySelector('.slide-count');
+    var prev = show.querySelector('.prev');
+    var next = show.querySelector('.next');
+    var count = show.querySelector('.slide-count');
     function current(){ return Math.round(track.scrollLeft / track.clientWidth); }
     function go(i){ track.scrollTo({left: i * track.clientWidth}); }
     function update(){
@@ -110,7 +170,7 @@
     });
     track.addEventListener('scroll', update, {passive:true});
     update();
-  })();
+  });
 </script>
 
 </body>

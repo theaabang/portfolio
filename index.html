@@ -127,7 +127,7 @@
     </div>
     <div class="skill-card">
       <h3>Development</h3>
-      <p>React, Java, Python, SQL, HTML/CSS</p>
+      <p>React, Java, C++, HTML/CSS</p>
     </div>
   </div>
   <div class="tools reveal" aria-label="Tools">
@@ -152,11 +152,24 @@
         <img src="images/cs-grainger-3.jpg" alt="Grainger Engineering preview 3">
       </div>
     </a>
+    <a class="project reveal" href="dancemarathon.html">
+      <div class="project-text">
+        <span class="num">PR &amp; social media</span>
+        <h3>Dance Marathon</h3>
+        <p>Led a team of five as PR Executive, planning weekly Instagram content for District 219&rsquo;s student-run charity fundraiser.</p>
+        <span class="go">View case study</span>
+      </div>
+      <div class="stack fit">
+        <img src="images/dm-5k-run.jpg" alt="Dance Marathon preview 1">
+        <img src="images/dm-backlot-bash.jpg" alt="Dance Marathon preview 2">
+        <img src="images/dm-trivia.jpg" alt="Dance Marathon preview 3">
+      </div>
+    </a>
     <a class="project reveal" href="inkheart.html">
       <div class="project-text">
         <span class="num">Brand strategy</span>
         <h3>InkHeart Strategy</h3>
-        <p>Brand architecture and strategy for a fictional book-preservation brand, built with AAF's Build-It agency team.</p>
+        <p>Brand architecture and strategy for a fictional book-preservation brand.</p>
         <span class="go">View case study</span>
       </div>
       <div class="stack fit" style="grid-template-columns:1.3fr .77fr .77fr;">
@@ -169,7 +182,7 @@
       <div class="project-text">
         <span class="num">Class projects</span>
         <h3>Coursework</h3>
-        <p>Selected class projects from Computer Science and Advertising coursework.</p>
+        <p>Selected class projects. </p>
         <span class="go">View case study</span>
       </div>
       <div class="stack fit feature">
@@ -206,6 +219,58 @@
 <footer>&copy; 2026 Thea Abang</footer>
 
 <script>
+  // clicking a project card rips the post-it off: it peels, flips toward you and grows
+  // to fill the screen in that project's color, then the project page fades in.
+  // cmd/ctrl-click still opens a new tab, and it's skipped for reduced motion
+  (function(){
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.project').forEach(function(card){
+      card.addEventListener('click', function(e){
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        var href = card.getAttribute('href');
+        var color = getComputedStyle(card).getPropertyValue('--label').trim() || '#1A1A1A';
+        var r = card.getBoundingClientRect();
+        var vw = innerWidth, vh = innerHeight;
+
+        // a copy of the post-it on top of everything, with the page color on its back
+        var note = document.createElement('div');
+        note.className = 'rip-note';
+        note.style.cssText = 'left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px';
+        var front = card.cloneNode(true);
+        front.className = 'project rip-front';
+        // keep the same layout as the real card (even cards have the text on the right)
+        front.style.gridTemplateColumns = getComputedStyle(card).gridTemplateColumns;
+        var txt = card.querySelector('.project-text');
+        if (txt) front.querySelector('.project-text').style.order = getComputedStyle(txt).order;
+        var back = document.createElement('div');
+        back.className = 'rip-back';
+        back.style.background = color;
+        note.appendChild(front); note.appendChild(back);
+        document.body.appendChild(note);
+        card.style.visibility = 'hidden';
+
+        var dx = vw/2 - (r.left + r.width/2), dy = vh/2 - (r.top + r.height/2);
+        var sx = vw / r.width * 1.1, sy = vh / r.height * 1.1;
+        var anim = note.animate([
+          { transform: 'perspective(1400px) rotate(-.5deg)' },
+          { transform: 'perspective(1400px) translateY(-14px) rotate(-5deg) rotateX(-22deg)', offset: .28 },
+          { transform: 'perspective(1400px) translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+') rotateX(-180deg)' }
+        ], { duration: 850, easing: 'cubic-bezier(.6,0,.3,1)', fill: 'forwards' });
+
+        anim.onfinish = function(){
+          try { sessionStorage.setItem('ripColor', color); } catch (err) {}
+          location.href = href;
+        };
+      });
+    });
+    // coming back with the back button: put the post-it back on the wall
+    addEventListener('pageshow', function(e){
+      if (!e.persisted) return;
+      document.querySelectorAll('.rip-note').forEach(function(n){ n.remove(); });
+      document.querySelectorAll('.project').forEach(function(c){ c.style.visibility = ''; });
+    });
+  })();
   // lets people drag the intro photos around. whatever you grab goes on top. refreshing puts them back
   (function(){
     var wall = document.querySelector('.work-wall');
